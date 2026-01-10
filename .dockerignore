@@ -1,0 +1,14 @@
+build/
+.gradle/
+.idea/
+*.iml
+.git/
+README.md
+TODO.md
+.env
+.env.example
+*.md
+target/
+bin/
+out/
+

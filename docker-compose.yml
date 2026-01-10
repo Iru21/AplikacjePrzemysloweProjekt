@@ -1,0 +1,50 @@
+services:
+  mariadb:
+    image: mariadb:latest
+    container_name: datingapp-mariadb
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: rootpassword
+      MARIADB_DATABASE: datingapp
+      MARIADB_USER: datingapp_user
+      MARIADB_PASSWORD: datingapp_pass
+    ports:
+      - "3307:3306"
+    volumes:
+      - db-data:/var/lib/mysql
+      - ./scripts/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - datingapp-network
+
+  # app:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   container_name: datingapp-backend
+  #   restart: unless-stopped
+  #   depends_on:
+  #     mariadb:
+  #       condition: service_healthy
+  #   environment:
+  #     SPRING_DATASOURCE_URL: jdbc:mariadb://mariadb:3306/datingapp
+  #     SPRING_DATASOURCE_USERNAME: datingapp_user
+  #     SPRING_DATASOURCE_PASSWORD: datingapp_pass
+  #     SPRING_JPA_HIBERNATE_DDL_AUTO: update
+  #   ports:
+  #     - "8080:8080"
+  #   networks:
+  #     - datingapp-network
+
+volumes:
+  db-data:
+    driver: local
+
+networks:
+  datingapp-network:
+    driver: bridge
+
