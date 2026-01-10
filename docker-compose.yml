@@ -21,24 +21,24 @@ services:
     networks:
       - datingapp-network
 
-  # app:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
-  #   container_name: datingapp-backend
-  #   restart: unless-stopped
-  #   depends_on:
-  #     mariadb:
-  #       condition: service_healthy
-  #   environment:
-  #     SPRING_DATASOURCE_URL: jdbc:mariadb://mariadb:3306/datingapp
-  #     SPRING_DATASOURCE_USERNAME: datingapp_user
-  #     SPRING_DATASOURCE_PASSWORD: datingapp_pass
-  #     SPRING_JPA_HIBERNATE_DDL_AUTO: update
-  #   ports:
-  #     - "8080:8080"
-  #   networks:
-  #     - datingapp-network
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: datingapp-backend
+    restart: unless-stopped
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mariadb://mariadb:3306/datingapp
+      SPRING_DATASOURCE_USERNAME: datingapp_user
+      SPRING_DATASOURCE_PASSWORD: datingapp_pass
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    ports:
+      - "8080:8080"
+    networks:
+      - datingapp-network
 
 volumes:
   db-data:
