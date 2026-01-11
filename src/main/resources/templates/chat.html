@@ -1,5 +1,3 @@
-<!--/*@thymesVar id="errorMessage" type="java.lang.String"*/-->
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{layout :: head(~{::title})}">
@@ -67,7 +65,7 @@
                     <div class="card-footer">
                         <form th:action="@{/messages}" method="post" class="d-flex gap-2">
                             <input type="hidden" name="matchId" th:value="${matchId}">
-                            <input type="hidden" name="receiverId" th:value="${not #lists.isEmpty(messages) ? messages[0].receiverId : 0}">
+                            <input type="hidden" name="receiverId" th:value="${receiverId}">
                             <input type="text" name="content" class="form-control" placeholder="Type a message..." required autofocus>
                             <button type="submit" class="btn btn-primary">
                                 <i class="bi bi-send-fill"></i> Send

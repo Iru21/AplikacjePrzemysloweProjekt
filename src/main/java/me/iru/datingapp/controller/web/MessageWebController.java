@@ -1,8 +1,10 @@
 package me.iru.datingapp.controller.web;
 
 import lombok.RequiredArgsConstructor;
+import me.iru.datingapp.dto.MatchDto;
 import me.iru.datingapp.dto.MessageDto;
 import me.iru.datingapp.dto.UserProfileDto;
+import me.iru.datingapp.service.MatchService;
 import me.iru.datingapp.service.MessageService;
 import me.iru.datingapp.service.UserService;
 import org.slf4j.Logger;
@@ -24,6 +26,7 @@ public class MessageWebController {
 
     private final MessageService messageService;
     private final UserService userService;
+    private final MatchService matchService;
 
     @GetMapping("/{matchId}")
     public String showChat(
@@ -34,11 +37,15 @@ public class MessageWebController {
         String email = authentication.getName();
         UserProfileDto currentUser = userService.getUserByEmail(email);
 
+        MatchDto match = matchService.getMatchById(matchId, currentUser.getId());
+        Long receiverId = match.getMatchedUserId();
+
         List<MessageDto> messages = messageService.getMessageHistory(matchId, currentUser.getId());
 
         model.addAttribute("messages", messages);
         model.addAttribute("matchId", matchId);
         model.addAttribute("currentUserId", currentUser.getId());
+        model.addAttribute("receiverId", receiverId);
         model.addAttribute("newMessage", new MessageDto());
 
         return "chat";
