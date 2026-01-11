@@ -28,6 +28,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+    implementation 'org.springframework.boot:spring-boot-starter-webmvc'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity6'
 
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.1'
@@ -39,8 +40,8 @@ dependencies {
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.boot:spring-boot-starter-data-jpa-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-webmvc-test'
     testImplementation 'org.springframework.security:spring-security-test'
-    testRuntimeOnly 'com.h2database:h2'
 
     testImplementation 'org.testcontainers:testcontainers:2.0.2'
     testImplementation 'org.testcontainers:testcontainers-junit-jupiter:2.0.2'
@@ -49,6 +50,8 @@ dependencies {
     testImplementation 'org.seleniumhq.selenium:selenium-java:4.38.0'
 
     testImplementation "org.mockito:mockito-core:5.+"
+
+    testImplementation 'com.tngtech.archunit:archunit:1.4.1'
 }
 
 jar {
