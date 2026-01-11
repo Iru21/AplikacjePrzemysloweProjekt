@@ -32,6 +32,9 @@ dependencies {
 
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.3.0'
 
+    // Jackson XML support for data export/import
+    implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.15.2'
+
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 

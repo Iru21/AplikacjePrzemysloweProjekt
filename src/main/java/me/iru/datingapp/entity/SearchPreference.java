@@ -34,5 +34,18 @@ public class SearchPreference {
 
     @Column
     private Integer maxDistance;
+
+    public static SearchPreference defaultForUser(User user) {
+        SearchPreference preference = new SearchPreference();
+        preference.setUser(user);
+        preference.setPreferredGender(null);
+
+        int userAge = user.getAge();
+        preference.setMinAge(Math.max(18, userAge - 5));
+        preference.setMaxAge(Math.min(100, userAge + 5));
+        preference.setMaxDistance(50);
+
+        return preference;
+    }
 }
 

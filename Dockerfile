@@ -1,4 +1,4 @@
-FROM gradle:8-jdk25 AS build
+FROM gradle:8.2.1-jdk25 AS build
 WORKDIR /app
 
 COPY build.gradle settings.gradle gradlew ./
