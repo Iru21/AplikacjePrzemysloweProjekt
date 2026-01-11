@@ -2,14 +2,13 @@ package me.iru.datingapp.service;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import me.iru.datingapp.dto.LoginDto;
 import me.iru.datingapp.dto.UserProfileDto;
 import me.iru.datingapp.entity.User;
 import me.iru.datingapp.exception.InvalidCredentialsException;
 import me.iru.datingapp.mapper.UserMapper;
 import me.iru.datingapp.repository.UserRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,12 +19,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class AuthenticationService implements UserDetailsService {
-
-    private static final Logger log = LoggerFactory.getLogger(AuthenticationService.class);
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
