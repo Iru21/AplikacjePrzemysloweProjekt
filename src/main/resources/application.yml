@@ -6,7 +6,6 @@ spring:
     url: ${SPRING_DATASOURCE_URL:jdbc:mariadb://localhost:3307/datingapp}
     username: ${SPRING_DATASOURCE_USERNAME:datingapp_user}
     password: ${SPRING_DATASOURCE_PASSWORD:datingapp_pass}
-    driver-class-name: org.mariadb.jdbc.Driver
     hikari:
       maximum-pool-size: 10
       minimum-idle: 5
