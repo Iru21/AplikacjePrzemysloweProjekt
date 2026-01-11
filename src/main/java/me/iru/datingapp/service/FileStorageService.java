@@ -34,7 +34,7 @@ public class FileStorageService {
     private static final List<String> ALLOWED_EXTENSIONS = Arrays.asList("jpg", "jpeg", "png", "gif");
     private static final long MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
 
-    public FileStorageService(@Value("${file.upload-dir:uploads}") String uploadDir) {
+    public FileStorageService(@Value("${app.file.upload-dir:uploads}") String uploadDir) {
         this.fileStorageLocation = Paths.get(uploadDir).toAbsolutePath().normalize();
 
         try {

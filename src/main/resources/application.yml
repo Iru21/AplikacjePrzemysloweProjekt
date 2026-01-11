@@ -83,7 +83,7 @@ springdoc:
 
 app:
   file-storage:
-    upload-dir: uploads/photos
+    upload-dir: uploads
   jwt:
     secret: secret
     expiration: 86400000

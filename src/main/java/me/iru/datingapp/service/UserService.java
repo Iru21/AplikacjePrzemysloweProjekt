@@ -147,7 +147,8 @@ public class UserService {
 
         if (user.getPhotoUrl() != null && !user.getPhotoUrl().isEmpty()) {
             try {
-                fileStorageService.delete(user.getPhotoUrl());
+                String filename = user.getPhotoUrl().replaceFirst("^/uploads/", "");
+                fileStorageService.delete(filename);
             } catch (Exception e) {
                 log.warn("Failed to delete profile photo for user {}: {}", id, e.getMessage());
             }
@@ -177,15 +178,18 @@ public class UserService {
 
         try {
             if (user.getPhotoUrl() != null && !user.getPhotoUrl().isEmpty()) {
-                fileStorageService.delete(user.getPhotoUrl());
+                String oldFilename = user.getPhotoUrl().replaceFirst("^/uploads/", "");
+                fileStorageService.delete(oldFilename);
             }
 
             String filename = fileStorageService.store(file);
-            user.setPhotoUrl(filename);
+
+            String photoUrl = "/uploads/" + filename;
+            user.setPhotoUrl(photoUrl);
             userRepository.save(user);
 
             log.info("Successfully uploaded profile photo for user ID: {}", id);
-            return filename;
+            return photoUrl;
 
         } catch (FileStorageException e) {
             log.error("Failed to upload profile photo for user ID {}: {}", id, e.getMessage());

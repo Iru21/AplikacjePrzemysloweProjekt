@@ -17,7 +17,7 @@ RUN groupadd -r spring && useradd -r -g spring spring
 
 COPY --from=build /app/build/libs/*.jar app.jar
 
-RUN mkdir -p /app/uploads/photos /app/logs && \
+RUN mkdir -p /app/uploads /app/logs && \
     chown -R spring:spring /app
 
 USER spring
