@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="~{layout :: head(~{::title})}">
     <title>Dating App - Find Your Match</title>
 </head>
@@ -8,8 +8,7 @@
 <nav th:replace="~{layout :: header}"></nav>
 
 <main class="flex-shrink-0">
-    <!-- Hero Section -->
-    <section class="py-5 text-center bg-primary text-white">
+    <section class="py-5 text-center bg-primary text-white" sec:authorize="!isAuthenticated()">
         <div class="container">
             <h1 class="display-4 fw-bold">
                 <i class="bi bi-heart-fill"></i> Welcome to Dating App
@@ -26,86 +25,23 @@
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section class="py-5">
+    <section class="py-5 text-center bg-primary text-white" sec:authorize="isAuthenticated()">
         <div class="container">
-            <h2 class="text-center mb-5">Why Choose Dating App?</h2>
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="card h-100 text-center">
-                        <div class="card-body">
-                            <i class="bi bi-search-heart display-4 text-primary mb-3"></i>
-                            <h5 class="card-title">Smart Matching</h5>
-                            <p class="card-text">Our algorithm finds people who match your preferences and interests.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card h-100 text-center">
-                        <div class="card-body">
-                            <i class="bi bi-shield-check display-4 text-primary mb-3"></i>
-                            <h5 class="card-title">Safe & Secure</h5>
-                            <p class="card-text">Your privacy and security are our top priorities.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card h-100 text-center">
-                        <div class="card-body">
-                            <i class="bi bi-chat-heart display-4 text-primary mb-3"></i>
-                            <h5 class="card-title">Easy Communication</h5>
-                            <p class="card-text">Chat with your matches and build meaningful connections.</p>
-                        </div>
-                    </div>
-                </div>
+            <h1 class="display-4 fw-bold">
+                <i class="bi bi-heart-fill"></i> Welcome Back, <span sec:authentication="name"></span>!
+            </h1>
+            <p class="lead mb-4">Ready to discover your perfect match?</p>
+            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                <a th:href="@{/matching}" class="btn btn-light btn-lg px-4 gap-3">
+                    <i class="bi bi-search-heart"></i> Start Matching
+                </a>
+                <a th:href="@{/matches}" class="btn btn-outline-light btn-lg px-4">
+                    <i class="bi bi-chat-heart"></i> My Matches
+                </a>
+                <a th:href="@{/profile}" class="btn btn-outline-light btn-lg px-4">
+                    <i class="bi bi-person-circle"></i> My Profile
+                </a>
             </div>
-        </div>
-    </section>
-
-    <!-- How It Works Section -->
-    <section class="py-5 bg-light">
-        <div class="container">
-            <h2 class="text-center mb-5">How It Works</h2>
-            <div class="row text-center">
-                <div class="col-md-3">
-                    <div class="mb-3">
-                        <i class="bi bi-person-plus display-3 text-primary"></i>
-                    </div>
-                    <h5>1. Create Profile</h5>
-                    <p>Sign up and tell us about yourself</p>
-                </div>
-                <div class="col-md-3">
-                    <div class="mb-3">
-                        <i class="bi bi-search display-3 text-primary"></i>
-                    </div>
-                    <h5>2. Discover</h5>
-                    <p>Browse profiles that match your preferences</p>
-                </div>
-                <div class="col-md-3">
-                    <div class="mb-3">
-                        <i class="bi bi-heart display-3 text-primary"></i>
-                    </div>
-                    <h5>3. Match</h5>
-                    <p>Like profiles and get matched</p>
-                </div>
-                <div class="col-md-3">
-                    <div class="mb-3">
-                        <i class="bi bi-chat-dots display-3 text-primary"></i>
-                    </div>
-                    <h5>4. Chat</h5>
-                    <p>Start conversations with your matches</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA Section -->
-    <section class="py-5">
-        <div class="container text-center">
-            <h2 class="mb-4">Ready to Find Your Match?</h2>
-            <a th:href="@{/register}" class="btn btn-primary btn-lg">
-                Join Now - It's Free!
-            </a>
         </div>
     </section>
 </main>

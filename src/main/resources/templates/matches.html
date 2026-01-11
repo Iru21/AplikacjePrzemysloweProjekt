@@ -13,29 +13,25 @@
             <i class="bi bi-chat-heart"></i> Your Matches
         </h2>
 
-        <!-- Success Message -->
         <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show">
             <span th:text="${successMessage}"></span>
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
 
-        <!-- Error Message -->
         <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show">
             <span th:text="${errorMessage}"></span>
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
 
-        <!-- Matches List -->
-        <div th:if="${matches != null and !matches.empty}">
+        <div th:if="${not #lists.isEmpty(matches)}">
             <div class="row row-cols-1 row-cols-md-2 g-4">
                 <div th:each="match : ${matches}" class="col">
                     <div class="card shadow-sm">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-4">
-                                    <!-- Match Photo -->
                                     <div class="bg-secondary rounded d-flex align-items-center justify-content-center" style="height: 100px;">
-                                        <img th:if="${match.matchedUserPhotoUrl}" th:src="@{'/uploads/' + ${match.matchedUserPhotoUrl}}"
+                                        <img th:if="${match.matchedUserPhotoUrl}" th:src="@{${match.matchedUserPhotoUrl}}"
                                              class="rounded img-fluid" style="max-height: 100px; object-fit: cover;" alt="Profile">
                                         <i th:unless="${match.matchedUserPhotoUrl}" class="bi bi-person-fill text-white" style="font-size: 3rem;"></i>
                                     </div>
@@ -67,7 +63,6 @@
             </div>
         </div>
 
-        <!-- No Matches -->
         <div th:if="${matches == null or matches.empty}" class="text-center py-5">
             <i class="bi bi-heart-half display-1 text-muted"></i>
             <h3 class="mt-3">No matches yet</h3>

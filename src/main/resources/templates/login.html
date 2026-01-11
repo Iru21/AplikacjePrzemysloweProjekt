@@ -17,40 +17,34 @@
                             <i class="bi bi-box-arrow-in-right"></i> Sign In
                         </h2>
 
-                        <!-- Success Message -->
                         <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show">
                             <span th:text="${successMessage}"></span>
                             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                         </div>
 
-                        <!-- Error Message (from Spring Security) -->
                         <div th:if="${param.error}" class="alert alert-danger alert-dismissible fade show">
                             Invalid email or password. Please try again.
                             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                         </div>
 
-                        <!-- Logout Message -->
                         <div th:if="${param.logout}" class="alert alert-info alert-dismissible fade show">
                             You have been logged out successfully.
                             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                         </div>
 
                         <form th:action="@{/login}" method="post">
-                            <!-- Email -->
                             <div class="mb-3">
                                 <label for="username" class="form-label">Email address</label>
                                 <input type="email" class="form-control" id="username" name="username"
                                        placeholder="your@email.com" required autofocus>
                             </div>
 
-                            <!-- Password -->
                             <div class="mb-3">
                                 <label for="password" class="form-label">Password</label>
                                 <input type="password" class="form-control" id="password" name="password"
                                        placeholder="Enter your password" required>
                             </div>
 
-                            <!-- Remember Me -->
                             <div class="mb-3 form-check">
                                 <input type="checkbox" class="form-check-input" id="remember-me" name="remember-me">
                                 <label class="form-check-label" for="remember-me">
@@ -58,7 +52,6 @@
                                 </label>
                             </div>
 
-                            <!-- Submit Button -->
                             <div class="d-grid">
                                 <button type="submit" class="btn btn-primary btn-lg">
                                     <i class="bi bi-box-arrow-in-right"></i> Sign In
