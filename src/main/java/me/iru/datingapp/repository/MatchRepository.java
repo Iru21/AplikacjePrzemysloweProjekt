@@ -41,5 +41,7 @@ public interface MatchRepository extends JpaRepository<Match, Long> {
     @Query("SELECT m FROM Match m WHERE " +
             "(m.user1.id = :userId OR m.user2.id = :userId) AND m.isActive = :isActive")
     List<Match> findByUserIdAndIsActive(@Param("userId") Long userId, @Param("isActive") boolean isActive);
+
+    long countByIsActive(boolean isActive);
 }
 

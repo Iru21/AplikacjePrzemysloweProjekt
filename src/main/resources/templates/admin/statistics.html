@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head(~{::title})}">
+    <title>Statistics - Admin Panel</title>
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+<nav th:replace="~{layout :: header}"></nav>
+
+<main class="flex-shrink-0">
+    <div class="container py-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1><i class="bi bi-graph-up"></i> Platform Statistics</h1>
+            <a th:href="@{/admin}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Back to Dashboard
+            </a>
+        </div>
+
+        <!-- User Statistics -->
+        <div class="card shadow mb-4">
+            <div class="card-header">
+                <h4 class="mb-0"><i class="bi bi-people"></i> User Statistics</h4>
+            </div>
+            <div class="card-body">
+                <div class="row g-4">
+                    <div class="col-md-3">
+                        <div class="text-center p-3 border rounded">
+                            <h2 class="text-primary" th:text="${totalUsers}">0</h2>
+                            <p class="mb-0">Total Users</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center p-3 border rounded">
+                            <h2 class="text-info" th:text="${maleUsers}">0</h2>
+                            <p class="mb-0">Male Users</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center p-3 border rounded">
+                            <h2 class="text-danger" th:text="${femaleUsers}">0</h2>
+                            <p class="mb-0">Female Users</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="text-center p-3 border rounded">
+                            <h2 class="text-secondary" th:text="${otherGenderUsers}">0</h2>
+                            <p class="mb-0">Other Gender</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Match Statistics -->
+        <div class="card shadow mb-4">
+            <div class="card-header">
+                <h4 class="mb-0"><i class="bi bi-heart"></i> Match Statistics</h4>
+            </div>
+            <div class="card-body">
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="text-center p-3 border rounded">
+                            <h2 class="text-success" th:text="${totalMatches}">0</h2>
+                            <p class="mb-0">Total Matches</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="text-center p-3 border rounded">
+                            <h2 class="text-primary" th:text="${activeMatches}">0</h2>
+                            <p class="mb-0">Active Matches</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Activity Statistics -->
+        <div class="card shadow mb-4">
+            <div class="card-header">
+                <h4 class="mb-0"><i class="bi bi-activity"></i> Activity Statistics</h4>
+            </div>
+            <div class="card-body">
+                <div class="row g-4">
+                    <div class="col-md-6">
+                        <div class="text-center p-3 border rounded">
+                            <h2 class="text-info" th:text="${totalMessages}">0</h2>
+                            <p class="mb-0">Total Messages Sent</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="text-center p-3 border rounded">
+                            <h2 class="text-warning" th:text="${totalRatings}">0</h2>
+                            <p class="mb-0">Total Ratings</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{layout :: footer}"></footer>
+
+<div th:replace="~{layout :: scripts}"></div>
+
+</body>
+</html>
+

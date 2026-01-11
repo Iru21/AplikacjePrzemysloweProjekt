@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head(~{::title})}">
+    <title>User Details - Admin Panel</title>
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+<nav th:replace="~{layout :: header}"></nav>
+
+<main class="flex-shrink-0">
+    <div class="container py-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1><i class="bi bi-person-badge"></i> User Details</h1>
+            <a th:href="@{/admin/users}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Back to Users
+            </a>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card shadow">
+                    <div class="card-body text-center">
+                        <div class="mb-3">
+                            <img th:if="${user.photoUrl}" th:src="@{${user.photoUrl}}"
+                                 class="rounded-circle img-fluid" alt="Profile Photo"
+                                 style="width: 150px; height: 150px; object-fit: cover;">
+                            <div th:unless="${user.photoUrl}"
+                                 class="bg-secondary rounded-circle d-inline-flex align-items-center justify-content-center"
+                                 style="width: 150px; height: 150px;">
+                                <i class="bi bi-person-fill text-white" style="font-size: 4rem;"></i>
+                            </div>
+                        </div>
+                        <h3 th:text="${user.firstName} + ' ' + ${user.lastName}">Name</h3>
+                        <p class="text-muted">
+                            <i class="bi bi-envelope"></i> <span th:text="${user.email}">email@example.com</span>
+                        </p>
+                        <div class="d-grid gap-2">
+                            <form th:action="@{/admin/users/{id}/delete(id=${user.id})}"
+                                  method="post"
+                                  onsubmit="return confirm('Are you sure you want to delete this user? This action cannot be undone.');">
+                                <button type="submit" class="btn btn-danger w-100">
+                                    <i class="bi bi-trash"></i> Delete User
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="card shadow">
+                    <div class="card-header">
+                        <h4 class="mb-0"><i class="bi bi-info-circle"></i> Profile Information</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col-sm-4"><strong>User ID:</strong></div>
+                            <div class="col-sm-8" th:text="${user.id}">1</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-4"><strong>Email:</strong></div>
+                            <div class="col-sm-8" th:text="${user.email}">email@example.com</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-4"><strong>First Name:</strong></div>
+                            <div class="col-sm-8" th:text="${user.firstName}">John</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-4"><strong>Last Name:</strong></div>
+                            <div class="col-sm-8" th:text="${user.lastName}">Doe</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-4"><strong>Gender:</strong></div>
+                            <div class="col-sm-8">
+                                <span class="badge bg-info" th:text="${user.gender}">MALE</span>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-4"><strong>Age:</strong></div>
+                            <div class="col-sm-8" th:text="${user.age} + ' years old'">25 years old</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-4"><strong>City:</strong></div>
+                            <div class="col-sm-8" th:text="${user.city ?: 'Not specified'}">Warsaw</div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-4"><strong>Bio:</strong></div>
+                            <div class="col-sm-8">
+                                <p th:if="${user.bio}" th:text="${user.bio}">Bio text</p>
+                                <p th:unless="${user.bio}" class="text-muted">No bio</p>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-4"><strong>Interests:</strong></div>
+                            <div class="col-sm-8">
+                                <div th:if="${not #lists.isEmpty(user.interests)}">
+                                    <span th:each="interest : ${user.interests}"
+                                          class="badge bg-secondary me-1"
+                                          th:text="${interest}">Interest</span>
+                                </div>
+                                <p th:if="${#lists.isEmpty(user.interests)}"
+                                   class="text-muted">No interests</p>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-sm-4"><strong>Member Since:</strong></div>
+                            <div class="col-sm-8" th:text="${#temporals.format(user.createdAt, 'MMMM dd, yyyy HH:mm')}">Date</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{layout :: footer}"></footer>
+
+<div th:replace="~{layout :: scripts}"></div>
+
+</body>
+</html>
+

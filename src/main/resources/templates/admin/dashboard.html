@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head(~{::title})}">
+    <title>Admin Dashboard - Dating App</title>
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+<nav th:replace="~{layout :: header}"></nav>
+
+<main class="flex-shrink-0">
+    <div class="container py-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1><i class="bi bi-speedometer2"></i> Admin Dashboard</h1>
+        </div>
+
+        <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show">
+            <span th:text="${successMessage}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show">
+            <span th:text="${errorMessage}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="row g-4 mb-4">
+            <div class="col-md-3">
+                <div class="card shadow-sm h-100 border-primary">
+                    <div class="card-body text-center">
+                        <i class="bi bi-people-fill text-primary" style="font-size: 3rem;"></i>
+                        <h2 class="mt-3" th:text="${totalUsers}">0</h2>
+                        <p class="text-muted mb-0">Total Users</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card shadow-sm h-100 border-success">
+                    <div class="card-body text-center">
+                        <i class="bi bi-heart-fill text-success" style="font-size: 3rem;"></i>
+                        <h2 class="mt-3" th:text="${totalMatches}">0</h2>
+                        <p class="text-muted mb-0">Total Matches</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card shadow-sm h-100 border-info">
+                    <div class="card-body text-center">
+                        <i class="bi bi-chat-dots-fill text-info" style="font-size: 3rem;"></i>
+                        <h2 class="mt-3" th:text="${totalMessages}">0</h2>
+                        <p class="text-muted mb-0">Total Messages</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card shadow-sm h-100 border-warning">
+                    <div class="card-body text-center">
+                        <i class="bi bi-star-fill text-warning" style="font-size: 3rem;"></i>
+                        <h2 class="mt-3" th:text="${totalRatings}">0</h2>
+                        <p class="text-muted mb-0">Total Ratings</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="card shadow">
+            <div class="card-header">
+                <h4 class="mb-0"><i class="bi bi-lightning-fill"></i> Quick Actions</h4>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <a th:href="@{/admin/users}" class="btn btn-primary w-100 py-3">
+                            <i class="bi bi-people"></i><br>
+                            Manage Users
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a th:href="@{/admin/interests}" class="btn btn-success w-100 py-3">
+                            <i class="bi bi-heart"></i><br>
+                            Manage Interests
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a th:href="@{/admin/statistics}" class="btn btn-info w-100 py-3">
+                            <i class="bi bi-graph-up"></i><br>
+                            View Statistics
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{layout :: footer}"></footer>
+
+<div th:replace="~{layout :: scripts}"></div>
+
+</body>
+</html>
+

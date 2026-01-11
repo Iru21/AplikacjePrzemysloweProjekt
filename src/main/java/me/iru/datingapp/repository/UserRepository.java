@@ -17,6 +17,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     boolean existsByEmail(String email);
 
+    long countByGender(User.Gender gender);
+
     Page<User> findByGenderAndAgeBetween(User.Gender gender, Integer minAge, Integer maxAge, Pageable pageable);
 
     Page<User> findByCity(String city, Pageable pageable);
