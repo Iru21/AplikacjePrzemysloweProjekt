@@ -91,7 +91,6 @@ class LoginE2ETest {
         passwordInput.sendKeys("wrongpassword");
         submitButton.click();
 
-        wait.until(ExpectedConditions.urlContains("/login"));
         String currentUrl = driver.getCurrentUrl();
         assert currentUrl != null;
         assertTrue(currentUrl.contains("/login"), "Should remain on login page");
