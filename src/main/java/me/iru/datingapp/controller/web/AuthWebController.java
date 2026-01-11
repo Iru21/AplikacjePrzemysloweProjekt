@@ -6,6 +6,7 @@ import me.iru.datingapp.dto.UserRegistrationDto;
 import me.iru.datingapp.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,7 +24,12 @@ public class AuthWebController {
     private final UserService userService;
 
     @GetMapping("/register")
-    public String showRegistrationForm(Model model) {
+    public String showRegistrationForm(Authentication authentication, Model model) {
+        if (authentication != null && authentication.isAuthenticated()) {
+            log.info("Authenticated user tried to access /register, redirecting to /profile");
+            return "redirect:/profile";
+        }
+
         model.addAttribute("userRegistrationDto", new UserRegistrationDto());
         return "register";
     }
@@ -52,7 +58,12 @@ public class AuthWebController {
     }
 
     @GetMapping("/login")
-    public String showLoginForm(Model model) {
+    public String showLoginForm(Authentication authentication) {
+        if (authentication != null && authentication.isAuthenticated()) {
+            log.info("Authenticated user tried to access /login, redirecting to /profile");
+            return "redirect:/profile";
+        }
+
         return "login";
     }
 }
