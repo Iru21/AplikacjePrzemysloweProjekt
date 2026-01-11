@@ -48,5 +48,5 @@ uploads/
 # Application specific
 target/
 
-# Temporary files
 TODO.md
+src/main/resources/static/css/bootstrap/icons/*.svg

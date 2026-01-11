@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head(~{::title})}">
+    <title>Edit Profile - Dating App</title>
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+<nav th:replace="~{layout :: header}"></nav>
+
+<main class="flex-shrink-0">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow">
+                    <div class="card-header">
+                        <h3 class="mb-0"><i class="bi bi-pencil-square"></i> Edit Profile</h3>
+                    </div>
+                    <div class="card-body p-4">
+                        <!-- Error Messages -->
+                        <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show">
+                            <span th:text="${errorMessage}"></span>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+
+                        <form th:action="@{/profile/edit}" th:object="${userUpdateDto}" method="post">
+                            <!-- City -->
+                            <div class="mb-3">
+                                <label for="city" class="form-label">City</label>
+                                <input type="text" class="form-control" id="city" th:field="*{city}"
+                                       th:classappend="${#fields.hasErrors('city')} ? 'is-invalid' : ''"
+                                       placeholder="Warsaw">
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('city')}" th:errors="*{city}"></div>
+                            </div>
+
+                            <!-- Bio -->
+                            <div class="mb-3">
+                                <label for="bio" class="form-label">Bio</label>
+                                <textarea class="form-control" id="bio" th:field="*{bio}" rows="4"
+                                          th:classappend="${#fields.hasErrors('bio')} ? 'is-invalid' : ''"
+                                          placeholder="Tell us about yourself..."></textarea>
+                                <div class="invalid-feedback" th:if="${#fields.hasErrors('bio')}" th:errors="*{bio}"></div>
+                                <small class="form-text text-muted">Maximum 1000 characters</small>
+                            </div>
+
+                            <!-- Buttons -->
+                            <div class="d-flex gap-2">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-check-circle"></i> Save Changes
+                                </button>
+                                <a th:href="@{/profile}" class="btn btn-secondary">
+                                    <i class="bi bi-x-circle"></i> Cancel
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{layout :: footer}"></footer>
+
+<div th:replace="~{layout :: scripts}"></div>
+
+</body>
+</html>
+

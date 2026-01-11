@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head(~{::title})}">
+    <title>Discover - Dating App</title>
+</head>
+<body class="d-flex flex-column min-vh-100">
+
+<nav th:replace="~{layout :: header}"></nav>
+
+<main class="flex-shrink-0">
+    <div class="container py-5">
+        <h2 class="text-center mb-4">
+            <i class="bi bi-search-heart"></i> Discover New People
+        </h2>
+
+        <!-- Info Message -->
+        <div th:if="${infoMessage}" class="alert alert-info alert-dismissible fade show">
+            <span th:text="${infoMessage}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <!-- Error Message -->
+        <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show">
+            <span th:text="${errorMessage}"></span>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+
+        <!-- Suggestions -->
+        <div th:if="${suggestions != null and !suggestions.empty}">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                <div th:each="suggestion : ${suggestions}" class="col">
+                    <div class="card h-100 shadow-sm match-card">
+                        <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center" style="height: 300px;">
+                            <img th:if="${suggestion.photoUrl}" th:src="@{'/uploads/' + ${suggestion.photoUrl}}"
+                                 class="img-fluid" style="max-height: 300px; object-fit: cover; width: 100%;" alt="Profile">
+                            <i th:unless="${suggestion.photoUrl}" class="bi bi-person-fill text-white" style="font-size: 8rem;"></i>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title" th:text="${suggestion.firstName} + ', ' + ${suggestion.age}">Name, Age</h5>
+                            <p class="card-text">
+                                <i class="bi bi-geo-alt"></i> <span th:text="${suggestion.city ?: 'Not specified'}">City</span><br>
+                                <i class="bi bi-gender-ambiguous"></i> <span th:text="${suggestion.gender}">Gender</span>
+                            </p>
+                            <p class="card-text" th:if="${suggestion.bio}">
+                                <small th:text="${#strings.abbreviate(suggestion.bio, 100)}">Bio</small>
+                            </p>
+                            <div th:if="${suggestion.interests != null and !suggestion.interests.empty}" class="mb-2">
+                                <span th:each="interest : ${suggestion.interests}" class="badge bg-secondary me-1" th:text="${interest}">Interest</span>
+                            </div>
+                        </div>
+                        <div class="card-footer bg-white border-0">
+                            <div class="d-flex gap-2 justify-content-center">
+                                <form th:action="@{/matching/rate}" method="post" class="flex-fill">
+                                    <input type="hidden" name="ratedUserId" th:value="${suggestion.id}">
+                                    <input type="hidden" name="ratingType" value="DISLIKE">
+                                    <input type="hidden" name="page" th:value="${currentPage}">
+                                    <button type="submit" class="btn btn-outline-danger w-100">
+                                        <i class="bi bi-x-lg"></i> Pass
+                                    </button>
+                                </form>
+                                <form th:action="@{/matching/rate}" method="post" class="flex-fill">
+                                    <input type="hidden" name="ratedUserId" th:value="${suggestion.id}">
+                                    <input type="hidden" name="ratingType" value="LIKE">
+                                    <input type="hidden" name="page" th:value="${currentPage}">
+                                    <button type="submit" class="btn btn-primary w-100">
+                                        <i class="bi bi-heart-fill"></i> Like
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="d-flex justify-content-center mt-4" th:if="${hasNext}">
+                <a th:href="@{/matching(page=${currentPage + 1})}" class="btn btn-primary">
+                    <i class="bi bi-arrow-right"></i> Load More
+                </a>
+            </div>
+        </div>
+
+        <!-- No Suggestions -->
+        <div th:if="${suggestions == null or suggestions.empty}" class="text-center py-5">
+            <i class="bi bi-emoji-frown display-1 text-muted"></i>
+            <h3 class="mt-3">No more suggestions</h3>
+            <p class="text-muted">Check back later for new matches!</p>
+            <a th:href="@{/matches}" class="btn btn-primary">
+                <i class="bi bi-chat-heart"></i> View Your Matches
+            </a>
+        </div>
+    </div>
+</main>
+
+<footer th:replace="~{layout :: footer}"></footer>
+
+<div th:replace="~{layout :: scripts}"></div>
+
+</body>
+</html>
+

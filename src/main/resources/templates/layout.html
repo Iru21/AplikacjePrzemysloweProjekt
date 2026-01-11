@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title)">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${title}">Dating App</title>
+
+    <!-- Bootstrap 5 CSS (Local) -->
+    <link th:href="@{/css/bootstrap/bootstrap.min.css}" rel="stylesheet">
+    <!-- Bootstrap Icons (Local) -->
+    <link th:href="@{/css/bootstrap/icons/bootstrap-icons.min.css}" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link th:href="@{/css/style.css}" rel="stylesheet">
+</head>
+
+<body>
+
+<!-- Header/Navigation Fragment -->
+<nav th:fragment="header" class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/}">
+            <i class="bi bi-heart-fill"></i> Dating App
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item" sec:authorize="!isAuthenticated()">
+                    <a class="nav-link" th:href="@{/}">Home</a>
+                </li>
+                <li class="nav-item" sec:authorize="!isAuthenticated()">
+                    <a class="nav-link" th:href="@{/register}">Register</a>
+                </li>
+                <li class="nav-item" sec:authorize="!isAuthenticated()">
+                    <a class="nav-link" th:href="@{/login}">Login</a>
+                </li>
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <a class="nav-link" th:href="@{/profile}">
+                        <i class="bi bi-person-circle"></i> Profile
+                    </a>
+                </li>
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <a class="nav-link" th:href="@{/matching}">
+                        <i class="bi bi-search-heart"></i> Discover
+                    </a>
+                </li>
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <a class="nav-link" th:href="@{/matches}">
+                        <i class="bi bi-chat-heart"></i> Matches
+                    </a>
+                </li>
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <form th:action="@{/logout}" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-link nav-link">
+                            <i class="bi bi-box-arrow-right"></i> Logout
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Footer Fragment -->
+<footer th:fragment="footer" class="footer mt-auto py-3 bg-light">
+    <div class="container text-center">
+        <span class="text-muted">&copy; 2025 Dating App. All rights reserved.</span>
+    </div>
+</footer>
+
+<!-- Scripts Fragment -->
+<div th:fragment="scripts">
+    <!-- Bootstrap 5 JS Bundle (Local) -->
+    <script th:src="@{/js/bootstrap/bootstrap.bundle.min.js}"></script>
+    <!-- Custom JavaScript -->
+    <script th:src="@{/js/app.js}"></script>
+</div>
+
+</body>
+</html>
+

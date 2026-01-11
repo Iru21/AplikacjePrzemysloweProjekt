@@ -216,18 +216,20 @@ public class UserService {
      * Get user by email
      *
      * @param email User email
-     * @return User entity
+     * @return UserProfileDto
      * @throws ResourceNotFoundException if user not found
      */
     @Transactional(readOnly = true)
-    public User getUserByEmail(String email) {
+    public UserProfileDto getUserByEmail(String email) {
         log.debug("Fetching user by email: {}", email);
 
-        return userRepository.findByEmail(email)
+        User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> {
                     log.error("User not found with email: {}", email);
                     return new ResourceNotFoundException("User not found with email: " + email);
                 });
+
+        return userMapper.toDto(user);
     }
 }
 
