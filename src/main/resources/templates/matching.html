@@ -28,7 +28,7 @@
                 <div th:each="suggestion : ${suggestions}" class="col">
                     <div class="card h-100 shadow-sm match-card">
                         <div class="card-img-top bg-secondary d-flex align-items-center justify-content-center" style="height: 300px;">
-                            <img th:if="${suggestion.photoUrl}" th:src="@{'/uploads/' + ${suggestion.photoUrl}}"
+                            <img th:if="${suggestion.photoUrl}" th:src="${suggestion.photoUrl}"
                                  class="img-fluid" style="max-height: 300px; object-fit: cover; width: 100%;" alt="Profile">
                             <i th:unless="${suggestion.photoUrl}" class="bi bi-person-fill text-white" style="font-size: 8rem;"></i>
                         </div>
