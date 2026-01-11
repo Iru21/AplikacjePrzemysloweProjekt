@@ -66,7 +66,7 @@
             </div>
 
             <div class="col-md-8">
-                <div class="card shadow">
+                <div class="card shadow mb-4">
                     <div class="card-header">
                         <h4 class="mb-0"><i class="bi bi-person-lines-fill"></i> Profile Information</h4>
                     </div>
@@ -84,15 +84,88 @@
 
                         <div class="mb-3">
                             <label class="fw-bold">Interests:</label>
-                            <div th:if="${user.interests != null and !user.interests.empty}">
+                            <div th:if="${not #lists.isEmpty(user.interests)}">
                                 <span th:each="interest : ${user.interests}" class="badge bg-secondary me-1" th:text="${interest}">Interest</span>
                             </div>
-                            <p th:if="${user.interests == null or user.interests.empty}" class="text-muted">No interests added yet</p>
+                            <p th:if="${#lists.isEmpty(user.interests)}" class="text-muted">No interests added yet</p>
                         </div>
 
                         <div class="mb-3">
                             <label class="fw-bold">Member since:</label>
                             <p th:text="${#temporals.format(user.createdAt, 'MMMM dd, yyyy')}">Date</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Data Export Section -->
+                <div class="card shadow">
+                    <div class="card-header">
+                        <h4 class="mb-0"><i class="bi bi-download"></i> Export Your Data</h4>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted mb-3">
+                            Download a copy of your profile data, including your personal information, interests, and preferences.
+                            Choose your preferred format below.
+                        </p>
+
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <div class="card h-100 border-primary">
+                                    <div class="card-body text-center">
+                                        <i class="bi bi-filetype-json text-primary" style="font-size: 2.5rem;"></i>
+                                        <h5 class="card-title mt-2">JSON Format</h5>
+                                        <p class="card-text small text-muted">
+                                            Structured data format, ideal for developers and technical users
+                                        </p>
+                                        <a th:href="@{/api/export/profile/{userId}(userId=${user.id}, format='json')}"
+                                           class="btn btn-primary w-100" download>
+                                            <i class="bi bi-download"></i> Download JSON
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="card h-100 border-success">
+                                    <div class="card-body text-center">
+                                        <i class="bi bi-filetype-xml text-success" style="font-size: 2.5rem;"></i>
+                                        <h5 class="card-title mt-2">XML Format</h5>
+                                        <p class="card-text small text-muted">
+                                            Extensible markup format, compatible with many applications
+                                        </p>
+                                        <a th:href="@{/api/export/profile/{userId}(userId=${user.id}, format='xml')}"
+                                           class="btn btn-success w-100" download>
+                                            <i class="bi bi-download"></i> Download XML
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="card h-100 border-info">
+                                    <div class="card-body text-center">
+                                        <i class="bi bi-filetype-csv text-info" style="font-size: 2.5rem;"></i>
+                                        <h5 class="card-title mt-2">CSV Format</h5>
+                                        <p class="card-text small text-muted">
+                                            Spreadsheet format, can be opened in Excel or Google Sheets
+                                        </p>
+                                        <a th:href="@{/api/export/profile/{userId}/csv(userId=${user.id})}"
+                                           class="btn btn-info w-100" download>
+                                            <i class="bi bi-download"></i> Download CSV
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr class="my-4">
+
+                        <div class="alert alert-info d-flex align-items-center" role="alert">
+                            <i class="bi bi-info-circle-fill me-2" style="font-size: 1.5rem;"></i>
+                            <div>
+                                <strong>Privacy Note:</strong> Your exported data includes all information from your profile.
+                                Keep these files secure and don't share them with untrusted parties.
+                            </div>
                         </div>
                     </div>
                 </div>
