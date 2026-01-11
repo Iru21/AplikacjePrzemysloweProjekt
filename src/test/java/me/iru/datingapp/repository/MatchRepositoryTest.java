@@ -196,7 +196,6 @@ class MatchRepositoryTest {
 
     @Test
     void testFindByUserIdAndIsActive() {
-        // Given
         Match activeMatch = new Match();
         activeMatch.setUser1(user1);
         activeMatch.setUser2(user2);

@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import me.iru.datingapp.dto.UserProfileDto;
 import me.iru.datingapp.dto.UserUpdateDto;
 import me.iru.datingapp.entity.Interest;
+import me.iru.datingapp.service.ExportImportService;
 import me.iru.datingapp.service.InterestService;
 import me.iru.datingapp.service.UserService;
 import org.slf4j.Logger;
@@ -146,10 +147,8 @@ public class ProfileWebController {
             UserProfileDto profile = userService.getUserByEmail(email);
             Long userId = profile.getId();
 
-            // Remove all existing interests
             interestService.removeAllInterestsFromUser(userId);
 
-            // Add selected interests
             if (interestIds != null && !interestIds.isEmpty()) {
                 for (Long interestId : interestIds) {
                     interestService.addInterestToUser(userId, interestId);

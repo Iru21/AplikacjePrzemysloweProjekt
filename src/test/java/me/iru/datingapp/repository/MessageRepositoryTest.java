@@ -82,7 +82,6 @@ class MessageRepositoryTest {
 
     @Test
     void testSaveMessage() {
-        // Given
         Message message = new Message();
         message.setSender(user1);
         message.setReceiver(user2);

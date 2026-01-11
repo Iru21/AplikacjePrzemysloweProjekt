@@ -207,17 +207,14 @@ class UserServiceTest {
 
     @Test
     void testUploadProfilePhoto_Success() {
-        // Given
         MultipartFile file = mock(MultipartFile.class);
         String filename = "photo.jpg";
         when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
         when(fileStorageService.store(any(MultipartFile.class))).thenReturn(filename);
         when(userRepository.save(any(User.class))).thenReturn(testUser);
 
-        // When
         String result = userService.uploadProfilePhoto(1L, file);
 
-        // Then
         assertThat(result).isEqualTo("/uploads/" + filename);
         verify(fileStorageService).store(file);
         verify(userRepository).save(testUser);

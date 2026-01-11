@@ -67,11 +67,9 @@ public class SearchPreferenceService {
         SearchPreference preference = searchPreferenceRepository.findByUserId(userId)
                 .orElse(new SearchPreference());
 
-        // Update preference fields
         preference.setUser(user);
         searchPreferenceMapper.updateEntityFromDto(dto, preference);
 
-        // Validate age range
         if (preference.getMinAge() != null && preference.getMaxAge() != null) {
             if (preference.getMinAge() > preference.getMaxAge()) {
                 log.error("Invalid age range: min age {} is greater than max age {}",

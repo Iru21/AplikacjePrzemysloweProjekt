@@ -67,7 +67,6 @@ class FileStorageServiceTest {
                 "malicious content".getBytes()
         );
 
-        // When/Then
         assertThatThrownBy(() -> fileStorageService.store(file))
                 .isInstanceOf(FileStorageException.class)
                 .hasMessageContaining("not allowed");
@@ -157,10 +156,7 @@ class FileStorageServiceTest {
 
     @Test
     void testDelete_FileNotFound() {
-        // When - Deleting non-existent file should not throw exception (deleteIfExists)
         fileStorageService.delete("nonexistent.jpg");
-
-        // Then - No exception thrown
     }
 
     @Test
