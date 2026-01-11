@@ -1,22 +1,23 @@
 package me.iru.datingapp.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.Map;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 public class ErrorResponseDto {
 
     private String message;
     private LocalDateTime timestamp;
     private Integer status;
+    private String error;
     private String path;
+    private Map<String, String> validationErrors;
 
     public ErrorResponseDto(String message, Integer status) {
         this.message = message;
