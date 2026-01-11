@@ -16,6 +16,8 @@ import me.iru.datingapp.repository.UserInterestRepository;
 import me.iru.datingapp.repository.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -80,6 +82,23 @@ public class UserService {
                 });
 
         return userMapper.toDto(user);
+    }
+
+    /**
+     * Retrieves all users with pagination
+     *
+     * @param pageable Pagination parameters
+     * @return Page of UserProfileDto
+     */
+    @Transactional(readOnly = true)
+    public Page<UserProfileDto> getAllUsers(Pageable pageable) {
+        log.debug("Fetching all users with pagination: page {}, size {}",
+                pageable.getPageNumber(), pageable.getPageSize());
+
+        Page<User> users = userRepository.findAll(pageable);
+        log.debug("Found {} users", users.getTotalElements());
+
+        return users.map(userMapper::toDto);
     }
 
     /**
