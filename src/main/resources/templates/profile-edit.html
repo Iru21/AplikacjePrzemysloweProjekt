@@ -16,11 +16,18 @@
                         <h3 class="mb-0"><i class="bi bi-pencil-square"></i> Edit Profile</h3>
                     </div>
                     <div class="card-body p-4">
+                        <div th:if="${successMessage}" class="alert alert-success alert-dismissible fade show">
+                            <span th:text="${successMessage}"></span>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+
                         <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show">
                             <span th:text="${errorMessage}"></span>
                             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                         </div>
 
+                        <!-- Profile Info Form -->
+                        <h5 class="mb-3"><i class="bi bi-person-circle"></i> Profile Information</h5>
                         <form th:action="@{/profile/edit}" th:object="${userUpdateDto}" method="post">
                             <div class="mb-3">
                                 <label for="city" class="form-label">City</label>
@@ -46,6 +53,37 @@
                                 <a th:href="@{/profile}" class="btn btn-secondary">
                                     <i class="bi bi-x-circle"></i> Cancel
                                 </a>
+                            </div>
+                        </form>
+
+                        <hr class="my-4">
+
+                        <!-- Interests Form -->
+                        <h5 class="mb-3"><i class="bi bi-heart-fill"></i> Your Interests</h5>
+                        <form th:action="@{/profile/interests}" method="post">
+                            <div class="mb-3">
+                                <label class="form-label">Select your interests (choose multiple)</label>
+                                <div class="row g-2">
+                                    <div th:each="interest : ${allInterests}" class="col-md-6">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox"
+                                                   name="interestIds"
+                                                   th:value="${interest.id}"
+                                                   th:id="${'interest-' + interest.id}"
+                                                   th:checked="${userInterestIds.contains(interest.id)}">
+                                            <label class="form-check-label" th:for="${'interest-' + interest.id}">
+                                                <span th:text="${interest.name}">Interest Name</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <small class="form-text text-muted">Select interests that match your hobbies and preferences</small>
+                            </div>
+
+                            <div>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="bi bi-heart"></i> Update Interests
+                                </button>
                             </div>
                         </form>
                     </div>

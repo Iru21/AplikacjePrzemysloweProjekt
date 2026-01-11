@@ -4,6 +4,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import me.iru.datingapp.dto.UserProfileDto;
 import me.iru.datingapp.dto.UserUpdateDto;
+import me.iru.datingapp.entity.Interest;
+import me.iru.datingapp.service.InterestService;
 import me.iru.datingapp.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +17,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+import java.util.Objects;
+
 @Controller
 @RequestMapping("/profile")
 @RequiredArgsConstructor
@@ -23,6 +28,7 @@ public class ProfileWebController {
     private static final Logger log = LoggerFactory.getLogger(ProfileWebController.class);
 
     private final UserService userService;
+    private final InterestService interestService;
 
     @GetMapping
     public String showProfile(Authentication authentication, Model model) {
@@ -41,8 +47,21 @@ public class ProfileWebController {
         updateDto.setCity(profile.getCity());
         updateDto.setBio(profile.getBio());
 
+        List<Interest> allInterests = interestService.getAllInterests();
+
+        List<Long> userInterestIds = profile.getInterests().stream()
+                .map(interestName -> allInterests.stream()
+                        .filter(i -> i.getName().equals(interestName))
+                        .findFirst()
+                        .map(Interest::getId)
+                        .orElse(null))
+                .filter(Objects::nonNull)
+                .toList();
+
         model.addAttribute("userUpdateDto", updateDto);
         model.addAttribute("user", profile);
+        model.addAttribute("allInterests", allInterests);
+        model.addAttribute("userInterestIds", userInterestIds);
         return "profile-edit";
     }
 
@@ -113,6 +132,40 @@ public class ProfileWebController {
             log.error("Account deletion failed: {}", e.getMessage());
             redirectAttributes.addFlashAttribute("errorMessage", "Account deletion failed: " + e.getMessage());
             return "redirect:/profile";
+        }
+    }
+
+    @PostMapping("/interests")
+    public String updateInterests(
+            Authentication authentication,
+            @RequestParam(value = "interestIds", required = false) List<Long> interestIds,
+            RedirectAttributes redirectAttributes) {
+
+        try {
+            String email = authentication.getName();
+            UserProfileDto profile = userService.getUserByEmail(email);
+            Long userId = profile.getId();
+
+            // Remove all existing interests
+            interestService.removeAllInterestsFromUser(userId);
+
+            // Add selected interests
+            if (interestIds != null && !interestIds.isEmpty()) {
+                for (Long interestId : interestIds) {
+                    interestService.addInterestToUser(userId, interestId);
+                }
+                log.info("Updated {} interests for user: {}", interestIds.size(), email);
+                redirectAttributes.addFlashAttribute("successMessage", "Interests updated successfully!");
+            } else {
+                log.info("Removed all interests for user: {}", email);
+                redirectAttributes.addFlashAttribute("successMessage", "Interests cleared successfully!");
+            }
+
+            return "redirect:/profile/edit";
+        } catch (Exception e) {
+            log.error("Interest update failed: {}", e.getMessage());
+            redirectAttributes.addFlashAttribute("errorMessage", "Interest update failed: " + e.getMessage());
+            return "redirect:/profile/edit";
         }
     }
 }

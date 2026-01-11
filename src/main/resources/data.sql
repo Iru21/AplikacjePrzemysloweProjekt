@@ -1,4 +1,4 @@
-INSERT INTO interest (name, description) VALUES
+INSERT INTO interests (name, description) VALUES
 ('Sport', 'Zainteresowania sportowe i aktywność fizyczna'),
 ('Muzyka', 'Pasja do muzyki i koncertów'),
 ('Film', 'Miłośnik kina i seriali'),

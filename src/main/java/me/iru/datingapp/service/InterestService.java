@@ -139,6 +139,26 @@ public class InterestService {
     }
 
     /**
+     * Removes all interests from a user's profile
+     *
+     * @param userId User ID
+     * @throws ResourceNotFoundException if user not found
+     */
+    public void removeAllInterestsFromUser(Long userId) {
+        log.info("Removing all interests from user {}", userId);
+
+        if (!userRepository.existsById(userId)) {
+            log.error("User not found with ID: {}", userId);
+            throw new ResourceNotFoundException("User not found with ID: " + userId);
+        }
+
+        List<UserInterest> userInterests = userInterestRepository.findByUserId(userId);
+        userInterestRepository.deleteAll(userInterests);
+
+        log.info("Successfully removed {} interests from user {}", userInterests.size(), userId);
+    }
+
+    /**
      * Gets all interests for a specific user
      *
      * @param userId User ID
