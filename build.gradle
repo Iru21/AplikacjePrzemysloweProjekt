@@ -38,14 +38,17 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.boot:spring-boot-starter-data-jpa-test'
     testImplementation 'org.springframework.security:spring-security-test'
     testRuntimeOnly 'com.h2database:h2'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
-    testImplementation 'com.tngtech.archunit:archunit-junit5:1.2.1'
+    testImplementation 'org.testcontainers:testcontainers:2.0.2'
+    testImplementation 'org.testcontainers:testcontainers-junit-jupiter:2.0.2'
+    testImplementation "org.testcontainers:testcontainers-mariadb:2.0.2"
 
-    testImplementation 'org.selenium.webdriver:selenium-java:4.16.1'
-    testImplementation 'org.seleniumhq.selenium:selenium-chrome-driver:4.16.1'
+    testImplementation 'org.seleniumhq.selenium:selenium-java:4.38.0'
+
+    testImplementation "org.mockito:mockito-core:5.+"
 }
 
 jar {
@@ -61,7 +64,7 @@ tasks.named('test') {
 }
 
 jacoco {
-    toolVersion = '0.8.11'
+    toolVersion = '0.8.14'
 }
 
 jacocoTestReport {
