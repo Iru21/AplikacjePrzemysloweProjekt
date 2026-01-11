@@ -61,15 +61,22 @@ logging:
   level:
     root: INFO
     me.iru.datingapp: DEBUG
+    me.iru.datingapp.service: INFO
+    me.iru.datingapp.controller: INFO
+    me.iru.datingapp.repository: DEBUG
     org.springframework.security: INFO
-    org.springframework.web: DEBUG
+    org.springframework.web: INFO
+    org.springframework.data: INFO
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql.BasicBinder: TRACE
   pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
     file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
   file:
     name: logs/datingapp.log
+    max-size: 10MB
+    max-history: 30
+    total-size-cap: 300MB
 
 springdoc:
   api-docs:
