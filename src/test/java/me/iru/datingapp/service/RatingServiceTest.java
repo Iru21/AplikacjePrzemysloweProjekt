@@ -36,6 +36,9 @@ class RatingServiceTest {
     @Mock
     private MatchRepository matchRepository;
 
+    @Mock
+    private NotificationService notificationService;
+
     @InjectMocks
     private RatingService ratingService;
 

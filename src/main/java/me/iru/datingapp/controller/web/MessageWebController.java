@@ -6,6 +6,7 @@ import me.iru.datingapp.dto.MessageDto;
 import me.iru.datingapp.dto.UserProfileDto;
 import me.iru.datingapp.service.MatchService;
 import me.iru.datingapp.service.MessageService;
+import me.iru.datingapp.service.NotificationService;
 import me.iru.datingapp.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,6 +28,7 @@ public class MessageWebController {
     private final MessageService messageService;
     private final UserService userService;
     private final MatchService matchService;
+    private final NotificationService notificationService;
 
     @GetMapping("/{matchId}")
     public String showChat(
@@ -70,6 +72,8 @@ public class MessageWebController {
             messageDto.setContent(content);
 
             messageService.sendMessage(messageDto);
+
+            notificationService.createMessageNotification(receiverId, currentUser, matchId);
 
             log.info("Message sent from user {} to user {}", currentUser.getId(), receiverId);
 

@@ -26,6 +26,7 @@ public class RatingService {
     private final RatingRepository ratingRepository;
     private final UserRepository userRepository;
     private final MatchRepository matchRepository;
+    private final NotificationService notificationService;
 
     /**
      * Rates a user (LIKE or DISLIKE) and creates a match if mutual LIKE exists
@@ -93,7 +94,8 @@ public class RatingService {
 
                 log.info("User {} and User {} matched!", user1.getId(), user2.getId());
 
-                // TODO: Send notification to both users
+                notificationService.createMatchNotification(user1.getId(), user2, match.getId());
+                notificationService.createMatchNotification(user2.getId(), user1, match.getId());
             } else {
                 log.debug("Match already exists between user {} and user {}", user1.getId(), user2.getId());
             }

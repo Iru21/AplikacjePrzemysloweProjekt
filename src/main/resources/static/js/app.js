@@ -137,6 +137,20 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+
+    const notificationDropdown = document.getElementById('notificationDropdown');
+    if (notificationDropdown) {
+        loadNotifications();
+        setInterval(loadNotifications, 60000); // Refresh every minute
+
+        const markAllReadBtn = document.getElementById('markAllRead');
+        if (markAllReadBtn) {
+            markAllReadBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                markAllNotificationsAsRead();
+            });
+        }
+    }
 });
 
 function makeRequest(url, method = 'GET', data = null) {
@@ -155,3 +169,162 @@ function makeRequest(url, method = 'GET', data = null) {
     });
 }
 
+function loadNotifications() {
+    fetch('/api/notifications/unread', {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+        },
+        credentials: 'include'
+    })
+    .then(response => {
+        if (!response.ok) {
+            if (response.status === 401 || response.status === 403) {
+                console.log('User not authenticated for notifications');
+                return [];
+            }
+            throw new Error(`Failed to fetch notifications: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(notifications => {
+        if (Array.isArray(notifications)) {
+            updateNotificationBadge(notifications.length);
+            updateNotificationList(notifications);
+        }
+    })
+    .catch(error => {
+        console.error('Error loading notifications:', error);
+    });
+}
+
+function updateNotificationBadge(count) {
+    const badge = document.getElementById('notificationBadge');
+    if (badge) {
+        if (count > 0) {
+            badge.textContent = count > 99 ? '99+' : count;
+            badge.style.display = 'inline-block';
+        } else {
+            badge.style.display = 'none';
+        }
+    }
+}
+
+function updateNotificationList(notifications) {
+    const notificationList = document.getElementById('notificationList');
+    if (!notificationList) return;
+
+    if (notifications.length === 0) {
+        notificationList.innerHTML = '<li class="text-center py-3 text-muted">No new notifications</li>';
+        return;
+    }
+
+    notificationList.innerHTML = notifications.slice(0, 5).map(notification => {
+        const timeAgo = formatTimeAgo(new Date(notification.createdAt));
+        const icon = getNotificationIcon(notification.type);
+        const photoUrl = notification.relatedUserPhotoUrl || '/images/default-avatar.png';
+
+        return `
+            <li>
+                <a class="dropdown-item py-2 ${notification.isRead ? '' : 'bg-light'}" 
+                   href="#" onclick="markNotificationAsRead(${notification.id}, event)">
+                    <div class="d-flex align-items-start">
+                        ${notification.relatedUserPhotoUrl ? 
+                            `<img src="${photoUrl}" class="rounded-circle me-2" 
+                                 style="width: 40px; height: 40px; object-fit: cover;" 
+                                 onerror="this.src='/images/default-avatar.png'">` : 
+                            `<i class="${icon} fs-4 me-2"></i>`
+                        }
+                        <div class="flex-grow-1">
+                            <p class="mb-0 small">${notification.message}</p>
+                            <small class="text-muted">${timeAgo}</small>
+                        </div>
+                    </div>
+                </a>
+            </li>
+        `;
+    }).join('');
+}
+
+function getNotificationIcon(type) {
+    switch(type) {
+        case 'NEW_MATCH':
+            return 'bi bi-heart-fill text-danger';
+        case 'NEW_MESSAGE':
+            return 'bi bi-chat-fill text-primary';
+        case 'PROFILE_VIEW':
+            return 'bi bi-eye-fill text-info';
+        case 'SYSTEM':
+            return 'bi bi-info-circle-fill text-secondary';
+        default:
+            return 'bi bi-bell-fill';
+    }
+}
+
+function formatTimeAgo(date) {
+    const seconds = Math.floor((new Date() - date) / 1000);
+
+    let interval = Math.floor(seconds / 31536000);
+    if (interval >= 1) return interval + ' year' + (interval === 1 ? '' : 's') + ' ago';
+
+    interval = Math.floor(seconds / 2592000);
+    if (interval >= 1) return interval + ' month' + (interval === 1 ? '' : 's') + ' ago';
+
+    interval = Math.floor(seconds / 86400);
+    if (interval >= 1) return interval + ' day' + (interval === 1 ? '' : 's') + ' ago';
+
+    interval = Math.floor(seconds / 3600);
+    if (interval >= 1) return interval + ' hour' + (interval === 1 ? '' : 's') + ' ago';
+
+    interval = Math.floor(seconds / 60);
+    if (interval >= 1) return interval + ' minute' + (interval === 1 ? '' : 's') + ' ago';
+
+    return 'just now';
+}
+
+function markNotificationAsRead(notificationId, event) {
+    if (event) {
+        event.preventDefault();
+    }
+
+    fetch(`/api/notifications/${notificationId}/read`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+        },
+        credentials: 'include'
+    })
+    .then(response => {
+        if (response.ok) {
+            loadNotifications();
+        } else {
+            console.error('Failed to mark notification as read:', response.status);
+        }
+    })
+    .catch(error => {
+        console.error('Error marking notification as read:', error);
+    });
+}
+
+function markAllNotificationsAsRead() {
+    fetch('/api/notifications/read-all', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest'
+        },
+        credentials: 'include'
+    })
+    .then(response => {
+        if (response.ok) {
+            loadNotifications();
+        } else {
+            console.error('Failed to mark all notifications as read:', response.status);
+        }
+    })
+    .catch(error => {
+        console.error('Error marking all notifications as read:', error);
+    });
+}
