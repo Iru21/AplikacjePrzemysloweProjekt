@@ -190,5 +190,16 @@ class MatchServiceTest {
         verify(matchRepository).findById(1L);
         verify(matchRepository).save(any(Match.class));
     }
+
+    @Test
+    void testDeleteMatch_Success() {
+        when(matchRepository.findById(1L)).thenReturn(Optional.of(match));
+        doNothing().when(matchRepository).delete(any(Match.class));
+
+        matchService.deleteMatch(1L, 1L);
+
+        verify(matchRepository).findById(1L);
+        verify(matchRepository).delete(match);
+    }
 }
 
