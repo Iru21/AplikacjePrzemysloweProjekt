@@ -74,9 +74,11 @@ logging:
     file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
   file:
     name: logs/datingapp.log
-    max-size: 10MB
-    max-history: 30
-    total-size-cap: 300MB
+  logback:
+    rollingpolicy:
+      max-file-size: 10MB
+      max-history: 30
+      total-size-cap: 300MB
 
 springdoc:
   api-docs:
@@ -87,13 +89,11 @@ springdoc:
     tags-sorter: alpha
     operations-sorter: alpha
   show-actuator: false
+  show-login-endpoint: true
 
 app:
   file-storage:
     upload-dir: uploads
-  jwt:
-    secret: secret
-    expiration: 86400000
 
 
 

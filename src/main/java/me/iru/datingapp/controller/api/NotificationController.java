@@ -6,7 +6,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import me.iru.datingapp.dto.ErrorResponseDto;
@@ -27,7 +26,6 @@ import java.util.List;
 import java.util.Map;
 
 @Tag(name = "Notifications", description = "Notification management endpoints")
-@SecurityRequirement(name = "basicAuth")
 @RestController
 @RequestMapping("/api/notifications")
 @RequiredArgsConstructor

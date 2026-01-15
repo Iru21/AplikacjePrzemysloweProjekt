@@ -1,10 +1,7 @@
 package me.iru.datingapp.config;
 
-import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.oas.models.security.SecurityRequirement;
-import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -17,16 +14,8 @@ public class OpenApiConfig {
                 .info(new Info()
                         .title("Dating App REST API")
                         .version("1.0.0")
-                        .description("""
-                                RESTful API for Dating Application.
-                                """))
-                .addSecurityItem(new SecurityRequirement().addList("basicAuth"))
-                .components(new Components()
-                        .addSecuritySchemes("basicAuth",
-                                new SecurityScheme()
-                                        .type(SecurityScheme.Type.HTTP)
-                                        .scheme("basic")
-                                        .description("HTTP Basic Authentication (email and password)")));
+                        .description("RESTful API for Dating Application."));
     }
 }
+
 
